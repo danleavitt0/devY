@@ -1,31 +1,48 @@
 import React, { Component, PropTypes } from 'react'
-// import { bindActionCreators } from 'redux'
-// import { connect } from 'react-redux'
-import Header from '../components/Header'
-// import * as TodoActions from '../actions/todos'
+import {Styles} from 'material-ui'
+let ThemeManager = Styles.ThemeManager()
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import MainContainer from '../components/MainContainer'
+import * as UserActions from '../actions/user'
 
 class App extends Component {
+  getChildContext () {
+    return {
+      muiTheme: ThemeManager.getCurrentTheme()
+    }
+  }
+
+  componentWillMount () {
+    this.lock = new Auth0Lock('Nww9zmVHoam8woWCRqH4ysjvWZhp8HLy', 'danleavitt.auth0.com')
+  }
+
   render () {
-    // const { dispatch } = this.props
-    // const actions = bindActionCreators(TodoActions, dispatch)
+    const { user, dispatch } = this.props
+    const actions = bindActionCreators(UserActions, dispatch)
 
     return (
       <div>
-        <Header user={{name: 'Daniel'}} />
+        <MainContainer user={user} lock={this.lock} actions={actions}/>
       </div>
     )
   }
 }
 
 App.propTypes = {
+  user: PropTypes.array.isRequired,
   dispatch: PropTypes.func.isRequired
 }
 
-// function mapStateToProps (state) {
-//   return {
-//     todos: state.count
-//   }
-// }
+App.childContextTypes = {
+  muiTheme: React.PropTypes.object
+}
 
-// export default connect(mapStateToProps)(App)
-export default App
+function mapStateToProps (state) {
+  console.log(state)
+  return {
+    user: state.login.user
+  }
+}
+
+export default connect(mapStateToProps)(App)
