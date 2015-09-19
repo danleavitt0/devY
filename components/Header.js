@@ -3,17 +3,19 @@ import {AppBar, FlatButton} from 'material-ui'
 
 export default class Header extends Component {
   render () {
-    let {user} = this.props
+    let {user, actions, lock} = this.props
     let button = user
-      ? <FlatButton label='Logout'/>
-      : <FlatButton onClick={this._showLock.bind(this)} label='Sign In'/>
+      ? <FlatButton onClick={this._logout.bind(this, actions)} label='Logout'/>
+    : <FlatButton onClick={this._showLock.bind(this, lock)} label='Sign In'/>
     return (
-      <AppBar title={user} iconElementRight={button}/>
+      <AppBar title={user.name} iconElementRight={button}/>
     )
   }
-  _showLock () {
-    let {actions} = this.props
-    actions.login()
+  _logout (actions) {
+    actions.logout()
+  }
+  _showLock (lock) {
+    lock.show()
   }
 }
 

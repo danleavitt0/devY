@@ -1,7 +1,15 @@
-export const LOGIN_USER = 'LOGIN_USER'
+export const GET_USER = 'GET_USER'
+export const LOGOUT_USER = 'LOGOUT_USER'
 
-export function login () {
+export function login (profile) {
   return {
-    type: LOGIN_USER
+    type: GET_USER,
+    profile: profile
+  }
+}
+
+export function logout () {
+  return {
+    type: LOGOUT_USER
   }
 }

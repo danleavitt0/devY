@@ -4,7 +4,6 @@ import Header from './Header'
 export default class MainSection extends Component {
   render () {
     let {user, lock, actions} = this.props
-    console.log(actions)
     return (
       <div>
         <Header user={user} lock={lock} actions={actions}/>
